@@ -1,0 +1,24 @@
+{
+  "estimator": "xgboost.XGBClassifier",
+  "param_grid": {
+    "max_depth": [
+      3,
+      5
+    ],
+    "learning_rate": [
+      0.05,
+      0.1
+    ],
+    "subsample": [
+      0.8,
+      1.0
+    ],
+    "colsample_bytree": [
+      0.8,
+      1.0
+    ]
+  },
+  "scoring": "roc_auc",
+  "cv": 3,
+  "refit": true
+}

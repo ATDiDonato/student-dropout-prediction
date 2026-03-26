@@ -1,0 +1,12 @@
+{
+  "best_val_auc": 0.9993,
+  "best_params": {
+    "units": 160,
+    "layers": 2,
+    "activation": "tanh",
+    "optimizer": "adam",
+    "lr": 0.001,
+    "dropout": 0.1,
+    "l2_strength": 1e-05
+  }
+}

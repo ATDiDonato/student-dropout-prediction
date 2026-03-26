@@ -1,0 +1,27 @@
+{
+  "python.defaultInterpreterPath": "/home/alextd/venvs/tf-gpu311/bin/python",
+  "ruff.interpreter": ["/home/alextd/venvs/tf-gpu311/bin/python"],
+  "python.terminal.activateEnvironment": true,
+  "isort.interpreter": ["/home/alextd/venvs/tf-gpu311/bin/python"],
+  "isort.path": ["/home/alextd/venvs/tf-gpu311/bin/isort"],
+  "accessibility.audioCues.enabled": "off",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.rulers": [80]
+  },
+  "python.linting.enabledWithoutWorkspace": true,
+  "cSpell.words": [
+    "arichecture",
+    "inherintenty"
+  ],
+  "accessibility.signals.terminalBell": {
+    "sound": "off"
+  },
+  "terminal.integrated.enableVisualBell": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.ruff": "explicit"
+  },
+  "ruff.fixAll": true,
+  "ruff.organizeImports": true,
+}

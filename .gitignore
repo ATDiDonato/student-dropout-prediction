@@ -1,0 +1,45 @@
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!*.code-workspace
+
+# Ignore legacy notebook-local tuning outputs
+notebooks/tuning/
+
+# Generated caches
+data/cache/*.h5
+
+# Model and tuning binaries
+*.h5
+*.keras
+*.weights.h5
+*.sqlite3
+*.joblib
+
+# Keep reproducible repo-level model and tuning artefacts
+!models/**/*.h5
+!models/**/*.keras
+!models/**/*.weights.h5
+!tuning/**/*.h5
+!tuning/**/*.keras
+!tuning/**/*.weights.h5
+!tuning/**/*.sqlite3
+!tuning/**/*.joblib
+!tuning/**/*.json
+!tuning/**/*.csv
+!tuning/**/*.txt
+
+# Keras tuner artifacts
+oracle.json
+trial.json
+build_config.json
+!tuning/**/oracle.json
+!tuning/**/trial.json
+!tuning/**/build_config.json
+!tuning/**/tuner0.json
+
+# Built Visual Studio Code Extensions
+*.vsix

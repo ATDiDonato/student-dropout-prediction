@@ -1,0 +1,4 @@
+config_idx,units,layers,activation,optimizer,lr,dropout,l2_strength,epochs_ran,val_auc,test_auc,model_path,history_path
+1,16,1,relu,adam,0.001,0.0,0.0,8,0.8574116230010986,0.8751579291446185,demo_artifacts/tuning/nn_grid_search/models/demo_tuned_model_config_1.keras,demo_artifacts/tuning/nn_grid_search/histories/demo_tuned_model_config_1_history.h5
+2,32,1,relu,adam,0.001,0.1,0.0,3,0.8469491004943848,0.8497848913644359,demo_artifacts/tuning/nn_grid_search/models/demo_tuned_model_config_2.keras,demo_artifacts/tuning/nn_grid_search/histories/demo_tuned_model_config_2_history.h5
+3,48,2,relu,adam,0.0003,0.1,1e-05,3,0.8355322480201721,0.7865197963382001,demo_artifacts/tuning/nn_grid_search/models/demo_tuned_model_config_3.keras,demo_artifacts/tuning/nn_grid_search/histories/demo_tuned_model_config_3_history.h5

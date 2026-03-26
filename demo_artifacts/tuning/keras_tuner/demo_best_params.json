@@ -1,0 +1,12 @@
+{
+  "project_name": "stage_1_demo_nn_search",
+  "best_params": {
+    "units": 32,
+    "layers": 1,
+    "activation": "relu",
+    "optimizer": "adam",
+    "lr": 0.001,
+    "dropout": 0.2,
+    "l2_strength": 1e-05
+  }
+}

@@ -1,0 +1,114 @@
+Results summary
+Results in /home/alextd/projects/student-dropout-prediction/tuning/stage_1/neural_network/keras_tuner/nn_tabular_auc
+Showing 10 best trials
+Objective(name="val_auc", direction="max")
+
+Trial 1863 summary
+Hyperparameters:
+units: 240
+layers: 3
+activation: relu
+optimizer: adam
+lr: 0.0003
+dropout: 0.30000000000000004
+l2_strength: 0.0001
+Score: 0.8871857523918152
+
+Trial 0623 summary
+Hyperparameters:
+units: 48
+layers: 1
+activation: relu
+optimizer: adam
+lr: 0.001
+dropout: 0.4
+l2_strength: 0.0
+Score: 0.886974573135376
+
+Trial 0704 summary
+Hyperparameters:
+units: 64
+layers: 1
+activation: relu
+optimizer: adam
+lr: 0.0003
+dropout: 0.4
+l2_strength: 0.0001
+Score: 0.8864525556564331
+
+Trial 1672 summary
+Hyperparameters:
+units: 112
+layers: 1
+activation: tanh
+optimizer: rmsprop
+lr: 0.001
+dropout: 0.30000000000000004
+l2_strength: 1e-05
+Score: 0.8863177299499512
+
+Trial 1322 summary
+Hyperparameters:
+units: 112
+layers: 4
+activation: tanh
+optimizer: adam
+lr: 0.0003
+dropout: 0.30000000000000004
+l2_strength: 0.0
+Score: 0.8862825036048889
+
+Trial 1256 summary
+Hyperparameters:
+units: 48
+layers: 1
+activation: relu
+optimizer: adam
+lr: 0.001
+dropout: 0.2
+l2_strength: 1e-05
+Score: 0.8861642479896545
+
+Trial 0134 summary
+Hyperparameters:
+units: 112
+layers: 4
+activation: tanh
+optimizer: rmsprop
+lr: 0.0003
+dropout: 0.1
+l2_strength: 0.0
+Score: 0.8860145807266235
+
+Trial 1255 summary
+Hyperparameters:
+units: 16
+layers: 2
+activation: elu
+optimizer: adam
+lr: 0.001
+dropout: 0.0
+l2_strength: 1e-06
+Score: 0.8858543634414673
+
+Trial 1348 summary
+Hyperparameters:
+units: 256
+layers: 1
+activation: relu
+optimizer: adam
+lr: 0.0003
+dropout: 0.30000000000000004
+l2_strength: 1e-05
+Score: 0.8857771754264832
+
+Trial 1975 summary
+Hyperparameters:
+units: 176
+layers: 2
+activation: relu
+optimizer: adam
+lr: 0.0003
+dropout: 0.4
+l2_strength: 0.0001
+Score: 0.8857214450836182

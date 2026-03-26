@@ -1,0 +1,2 @@
+trial_id,val_auc,units,layers,activation,optimizer,lr,dropout,l2_strength
+saved_best_params,0.9993,160,2,tanh,adam,0.001,0.1,1e-05
