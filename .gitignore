@@ -19,6 +19,153 @@ data/cache/*.h5
 *.sqlite3
 *.joblib
 
+# ============================================================
+# Python / environment
+# ============================================================
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+.venv/
+venv/
+.env
+
+.ipynb_checkpoints/
+
+# ============================================================
+# VS Code / IDE
+# ============================================================
+
+.vscode/
+.idea/
+
+# ============================================================
+# OS junk
+# ============================================================
+
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# Large / temp data formats
+# ============================================================
+
+*.h5
+*.hdf5
+*.parquet
+*.feather
+*.tmp
+*.log
+
+# ============================================================
+# TensorFlow / Keras temp files
+# ============================================================
+
+*.ckpt
+*.index
+*.data-*
+*.pb
+
+# ============================================================
+# ============================================================
+# DATA
+# keep public processed datasets only
+# ============================================================
+
+data/**
+
+!data/processed/
+!data/processed/*.csv
+
+# ============================================================
+# MODELS
+# keep trained models only
+# ============================================================
+
+models/**
+
+!models/**/
+!models/**/*.joblib
+!models/**/*.keras
+!models/**/*.json
+
+# ============================================================
+# TUNING (project)
+# keep summaries, ignore heavy trial files
+# ============================================================
+
+tuning/**
+
+# allow folders
+!tuning/**/
+
+# allow summaries
+!tuning/**/*.json
+!tuning/**/*.csv
+!tuning/**/*.txt
+!tuning/**/*.sqlite3
+
+# ignore keras tuner heavy files
+tuning/**/keras_tuner/**
+
+# keep tuner metadata (resume possible)
+!tuning/**/keras_tuner/oracle.json
+!tuning/**/keras_tuner/tuner0.json
+!tuning/**/keras_tuner/trial_*/trial.json
+
+# ignore weights / checkpoints
+tuning/**/keras_tuner/trial_*/checkpoint*
+tuning/**/keras_tuner/trial_*/model*
+tuning/**/keras_tuner/trial_*/weights*
+
+# ignore tf temp
+tuning/**/*.ckpt
+tuning/**/*.pb
+
+# ============================================================
+# DEMO ARTIFACTS (separate from project)
+# ============================================================
+
+demo_artifacts/**
+
+# allow folders
+!demo_artifacts/**/
+
+# allow useful outputs
+!demo_artifacts/**/*.csv
+!demo_artifacts/**/*.json
+!demo_artifacts/**/*.txt
+!demo_artifacts/**/*.joblib
+!demo_artifacts/**/*.keras
+
+# ignore tuner heavy files
+demo_artifacts/**/keras_tuner/**
+demo_artifacts/**/trial_*
+demo_artifacts/**/checkpoint*
+
+# ============================================================
+# FIGURES / PLOTS
+# ============================================================
+
+*.png
+*.pdf
+
+!reports/
+!reports/figures/
+!reports/figures/*.png
+
+# ============================================================
+# Optuna temp
+# ============================================================
+
+*.sqlite3-journal
+*.db-journal
+
+
+
 # Keep reproducible repo-level model and tuning artefacts
 !models/**/*.h5
 !models/**/*.keras
