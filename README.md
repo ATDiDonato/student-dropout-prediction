@@ -6,7 +6,7 @@ Run the notebooks from the cloned repository so repo-relative paths resolve as e
 
 1. Create and activate your environment.
 2. Install dependencies with `pip install -r requirements.txt`.
-3. Open the notebooks from [notebooks](/home/alextd/projects/student-dropout-prediction/notebooks) in VS Code / WSL and run them normally.
+3. Open the notebooks from `notebooks/` in VS Code / WSL and run them normally.
 
 The notebooks and shared path helpers resolve the project root from the repo, so saved artefacts continue to land in the standard project folders:
 
@@ -33,14 +33,15 @@ Colab runtimes are temporary, so clone the repo and reinstall dependencies at th
 !pip install -r requirements.txt
 ```
 
-3. Open a notebook from the cloned repo, ideally under [notebooks](/home/alextd/projects/student-dropout-prediction/notebooks), and run the Colab setup cell near the top.
+3. Open a notebook from the cloned repo, ideally under `notebooks/`, and run the Colab setup cell near the top.
 
 The setup cell will:
 
 - detect Colab
 - switch into the cloned repo notebook directory when needed
 - add the repo root to `sys.path`
-- keep the same repo-relative save/load behaviour used locally
+- keep the same repo-relative save/load behaviour used locally by default
+- optionally switch saved artefacts to Google Drive when `USE_GOOGLE_DRIVE_ARTIFACTS = True`
 
 The default Colab assumption is `/content/student-dropout-prediction`. If you clone into a different folder name, set:
 
@@ -51,4 +52,38 @@ os.environ["COLAB_PROJECT_REPO"] = "<your-cloned-folder-name>"
 
 before running the notebook setup cell.
 
-Optional: you can mount Google Drive if you want longer-lived artefacts, but the notebooks do not require Drive and continue to save into the repo by default.
+## Optional Google Drive Artefacts In Colab
+
+If you want saved models, tuning outputs, reports, or demo artefacts to persist across Colab sessions, enable Drive-backed artefacts in the notebook setup cell:
+
+```python
+USE_GOOGLE_DRIVE_ARTIFACTS = True
+GOOGLE_DRIVE_ARTIFACT_ROOT = "/content/drive/MyDrive/student_dropout_artifacts"
+```
+
+When Drive-backed artefacts are enabled in Colab:
+
+- the setup cell mounts Google Drive only for that session
+- portfolio artefacts are written under `<drive_root>/portfolio/`
+- demo artefacts are written under `<drive_root>/demo/`
+- project code and public datasets still come from the cloned repo under `/content/student-dropout-prediction`
+
+When Drive-backed artefacts are disabled:
+
+- local VS Code / WSL runs continue to use the repo folders directly
+- Colab runs save into the temporary cloned repo inside `/content`
+
+Expected Drive layout:
+
+```text
+<drive_root>/
+  portfolio/
+    models/
+    tuning/
+    reports/
+  demo/
+    datasets/
+    models/
+    tuning/
+    figures/
+```

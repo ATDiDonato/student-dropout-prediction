@@ -9,6 +9,9 @@ from src.config import STAGE_DATA_FILENAMES
 
 REPO_MARKERS = ("src", "data", "notebooks")
 DEFAULT_COLAB_REPO_PARENT = Path("/content")
+DEFAULT_GOOGLE_DRIVE_ARTIFACT_ROOT = Path("/content/drive/MyDrive/student_dropout_artifacts")
+USE_GOOGLE_DRIVE_ARTIFACTS_ENV = "USE_GOOGLE_DRIVE_ARTIFACTS"
+GOOGLE_DRIVE_ARTIFACT_ROOT_ENV = "GOOGLE_DRIVE_ARTIFACT_ROOT"
 
 
 def is_colab() -> bool:
@@ -17,6 +20,23 @@ def is_colab() -> bool:
 
 def _is_project_root(candidate: Path) -> bool:
     return all((candidate / marker).exists() for marker in REPO_MARKERS)
+
+
+def _env_flag_is_enabled(name: str) -> bool:
+    value = os.environ.get(name, "")
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def use_google_drive_artifacts() -> bool:
+    return is_colab() and _env_flag_is_enabled(USE_GOOGLE_DRIVE_ARTIFACTS_ENV)
+
+
+def get_google_drive_artifact_root() -> Path:
+    configured_root = os.environ.get(
+        GOOGLE_DRIVE_ARTIFACT_ROOT_ENV,
+        os.fspath(DEFAULT_GOOGLE_DRIVE_ARTIFACT_ROOT),
+    )
+    return Path(configured_root).expanduser().resolve()
 
 
 def resolve_project_root(start_path: str | Path | None = None) -> Path:
@@ -86,9 +106,24 @@ def maybe_change_to_notebook_root(start_path: str | Path | None = None) -> Path:
 
 PROJECT_ROOT = resolve_project_root()
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
-TUNING_DIR = PROJECT_ROOT / "tuning"
-MODELS_DIR = PROJECT_ROOT / "models"
-FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
+
+LOCAL_MODELS_DIR = PROJECT_ROOT / "models"
+LOCAL_TUNING_DIR = PROJECT_ROOT / "tuning"
+LOCAL_REPORTS_DIR = PROJECT_ROOT / "reports"
+LOCAL_FIGURES_DIR = LOCAL_REPORTS_DIR / "figures"
+
+GOOGLE_DRIVE_ARTIFACTS_ENABLED = use_google_drive_artifacts()
+GOOGLE_DRIVE_ARTIFACT_ROOT = get_google_drive_artifact_root()
+PORTFOLIO_ARTIFACT_ROOT = (
+    GOOGLE_DRIVE_ARTIFACT_ROOT / "portfolio"
+    if GOOGLE_DRIVE_ARTIFACTS_ENABLED
+    else PROJECT_ROOT
+)
+
+MODELS_DIR = PORTFOLIO_ARTIFACT_ROOT / "models"
+TUNING_DIR = PORTFOLIO_ARTIFACT_ROOT / "tuning"
+REPORTS_DIR = PORTFOLIO_ARTIFACT_ROOT / "reports"
+FIGURES_DIR = REPORTS_DIR / "figures"
 
 
 def get_stage_paths(stage_name: str, previous_stage: str | None = None) -> dict[str, Path]:
@@ -120,3 +155,79 @@ def get_stage_data_path(stage_name: str) -> Path:
 def ensure_directories(*directories: Path) -> None:
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
+
+
+def display_path(path: str | Path) -> str:
+    resolved_path = Path(path).resolve()
+
+    base_candidates = (
+        (
+            GOOGLE_DRIVE_ARTIFACT_ROOT,
+            PROJECT_ROOT,
+            PORTFOLIO_ARTIFACT_ROOT,
+        )
+        if GOOGLE_DRIVE_ARTIFACTS_ENABLED
+        else (
+            PROJECT_ROOT,
+            PORTFOLIO_ARTIFACT_ROOT,
+            GOOGLE_DRIVE_ARTIFACT_ROOT,
+        )
+    )
+
+    for base in base_candidates:
+        try:
+            return resolved_path.relative_to(base).as_posix()
+        except ValueError:
+            continue
+
+    return resolved_path.as_posix()
+
+
+def resolve_saved_path(path: str | Path) -> Path:
+    candidate = Path(path).expanduser()
+    if candidate.is_absolute():
+        return candidate.resolve()
+
+    candidate_parts = candidate.parts
+    if not candidate_parts:
+        return PROJECT_ROOT
+
+    head = candidate_parts[0]
+    tail = Path(*candidate_parts[1:]) if len(candidate_parts) > 1 else Path()
+
+    if head == "portfolio":
+        preferred_base = (
+            GOOGLE_DRIVE_ARTIFACT_ROOT / "portfolio"
+            if GOOGLE_DRIVE_ARTIFACTS_ENABLED
+            else PROJECT_ROOT
+        )
+        return (preferred_base / tail).resolve()
+    elif head == "demo":
+        preferred_base = (
+            GOOGLE_DRIVE_ARTIFACT_ROOT / "demo"
+            if GOOGLE_DRIVE_ARTIFACTS_ENABLED
+            else PROJECT_ROOT / "demo_artifacts"
+        )
+        return (preferred_base / tail).resolve()
+    elif head == "demo_artifacts":
+        preferred_base = (
+            PROJECT_ROOT / "demo_artifacts"
+            if not GOOGLE_DRIVE_ARTIFACTS_ENABLED
+            else GOOGLE_DRIVE_ARTIFACT_ROOT / "demo"
+        )
+        return (preferred_base / tail).resolve()
+    elif head in {"models", "tuning", "reports"}:
+        return (PORTFOLIO_ARTIFACT_ROOT / candidate).resolve()
+    else:
+        base_candidates = (
+            (GOOGLE_DRIVE_ARTIFACT_ROOT, PROJECT_ROOT)
+            if GOOGLE_DRIVE_ARTIFACTS_ENABLED
+            else (PROJECT_ROOT, GOOGLE_DRIVE_ARTIFACT_ROOT)
+        )
+
+    for base in base_candidates:
+        resolved = (base / candidate).resolve()
+        if resolved.exists():
+            return resolved
+
+    return (base_candidates[0] / candidate).resolve()

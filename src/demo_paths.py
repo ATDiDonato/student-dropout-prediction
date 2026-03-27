@@ -2,12 +2,21 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from src.paths import ensure_directories, resolve_project_root
+from src.paths import (
+    GOOGLE_DRIVE_ARTIFACTS_ENABLED,
+    GOOGLE_DRIVE_ARTIFACT_ROOT,
+    ensure_directories,
+    resolve_project_root,
+)
 
 
 PROJECT_ROOT = resolve_project_root()
 
-DEMO_ARTIFACT_DIR = PROJECT_ROOT / "demo_artifacts"
+DEMO_ARTIFACT_DIR = (
+    GOOGLE_DRIVE_ARTIFACT_ROOT / "demo"
+    if GOOGLE_DRIVE_ARTIFACTS_ENABLED
+    else PROJECT_ROOT / "demo_artifacts"
+)
 
 DEMO_DATASET_DIR = DEMO_ARTIFACT_DIR / "datasets"
 
