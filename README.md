@@ -1,5 +1,32 @@
 # Student Dropout Prediction
 
+> **Work in progress:** This repository is a public working version of an academic project. The notebooks, saved outputs and interpretations are being reviewed and are not yet a verified, end-to-end reproducible release.
+
+## About the project
+
+Developed from work completed during the Cambridge Data Science with Machine Learning & AI Career Accelerator, this project explores student dropout classification using XGBoost and neural networks.
+
+The analysis compares three sets of available information:
+
+- [Stage 1 — applicant and course information](notebooks/01_stage_1_data_and_modelling.ipynb)
+- [Stage 2 — additional attendance information](notebooks/02_stage_2_data_and_modelling.ipynb)
+- [Stage 3 — additional assessment information](notebooks/03_stage_3_data_and_modelling.ipynb)
+
+The work includes exploratory analysis, feature engineering, hyperparameter tuning, model comparisons and SHAP-based interpretation.
+
+## Current status and limitations
+
+The repository is available to show the work as it develops. Outstanding work includes:
+
+- Correcting feature-processing issues and making notebook dependencies explicit.
+- Reconciling saved models and tuning records with the code, reported metrics and conclusions.
+- Checking evaluation splits for repeated learners and confirming when features would be available for prediction.
+- Completing dataset provenance and setup documentation.
+
+**Reported results are provisional.** In particular, the near-perfect Stage 3 scores should not be interpreted as validated early-warning performance: the timing of attendance and assessment information relative to dropout needs to be established. This is an exploratory academic project, not a deployed student intervention system.
+
+The setup notes below describe the intended workflow. Clean-kernel execution has not yet been verified; the later notebooks currently rely on state from earlier stages and may require fixes before they run successfully.
+
 ## Running locally
 
 Run the notebooks from the cloned repository so repo-relative paths resolve as expected.
