@@ -1,0 +1,9 @@
+{
+  "random_seed": 42,
+  "split_strategy": "shared 60/20/20 stratified learner-grouped split",
+  "threshold_strategy": "validation-set F2 maximum",
+  "models": [
+    "XGBoost",
+    "scikit-learn MLPClassifier"
+  ]
+}

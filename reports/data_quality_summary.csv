@@ -1,0 +1,4 @@
+stage,rows,columns,learners,dropouts,dropout_rate,repeated_learners,repeated_learners_with_conflicting_outcomes,exact_duplicate_rows
+Stage 1,25059,17,24877,3754,0.14980645676204157,182,36,0
+Stage 2,25059,19,24877,3754,0.14980645676204157,182,36,0
+Stage 3,25059,22,24877,3754,0.14980645676204157,182,36,0

@@ -1,116 +1,90 @@
 # Student Dropout Prediction
 
-> **Work in progress:** This repository is a public working version of an academic project. The notebooks, saved outputs and interpretations are being reviewed and are not yet a verified, end-to-end reproducible release.
+[![Run in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ATDiDonato/student-dropout-prediction/blob/master/notebooks/student_dropout_prediction.ipynb)
 
-## About the project
+This project compares student-dropout classification at three points in the student journey:
 
-Developed from work completed during the Cambridge Data Science with Machine Learning & AI Career Accelerator, this project explores student dropout classification using XGBoost and neural networks.
+1. **Stage 1 — application/intake:** learner and course information.
+2. **Stage 2 — attendance:** Stage 1 plus authorised and unauthorised absence counts.
+3. **Stage 3 — assessment:** Stage 2 plus assessed, failed and passed module counts.
 
-The analysis compares three sets of available information:
+It was developed from an academic project completed during the University of Cambridge Professional and Continuing Education Career Accelerator in Data Science with Machine Learning & AI. This portfolio version corrects the original feature-processing and evaluation issues and runs end to end from a clean environment.
 
-- [Stage 1 — applicant and course information](notebooks/01_stage_1_data_and_modelling.ipynb)
-- [Stage 2 — additional attendance information](notebooks/02_stage_2_data_and_modelling.ipynb)
-- [Stage 3 — additional assessment information](notebooks/03_stage_3_data_and_modelling.ipynb)
+## Why the evaluation design changed
 
-The work includes exploratory analysis, feature engineering, hyperparameter tuning, model comparisons and SHAP-based interpretation.
+The dataset contains 25,059 enrolment records for 24,877 learners. There are 182 repeated learner identifiers, including 36 learners with different outcomes across enrolments. A random row split could therefore place the same learner in both training and test data.
 
-## Current status and limitations
+This version uses one reproducible **learner-grouped 60/20/20 train/validation/test split**, shared across all information stages. `LearnerCode` is used only to isolate learners between splits and is never a model feature.
 
-The repository is available to show the work as it develops. Outstanding work includes:
+`CompletedCourse` is excluded because it is exactly the inverse of the target. Thresholds are selected on validation data by maximising F2, giving recall twice the weight of precision, and are then applied once to the held-out test set.
 
-- Correcting feature-processing issues and making notebook dependencies explicit.
-- Reconciling saved models and tuning records with the code, reported metrics and conclusions.
-- Checking evaluation splits for repeated learners and confirming when features would be available for prediction.
-- Completing dataset provenance and setup documentation.
+## Verified results
 
-**Reported results are provisional.** In particular, the near-perfect Stage 3 scores should not be interpreted as validated early-warning performance: the timing of attendance and assessment information relative to dropout needs to be established. This is an exploratory academic project, not a deployed student intervention system.
+| Stage | Model | Test population | ROC-AUC | Average precision | Precision | Recall | F2 |
+|---|---|---|---:|---:|---:|---:|---:|
+| Stage 1 | XGBoost | All records | 0.893 | 0.686 | 0.551 | 0.790 | 0.727 |
+| Stage 1 | Neural network | All records | 0.890 | 0.674 | 0.580 | 0.750 | 0.708 |
+| Stage 2 | XGBoost | All records | 0.930 | 0.771 | 0.602 | 0.828 | 0.770 |
+| Stage 2 | Neural network | All records | 0.920 | 0.724 | 0.547 | 0.822 | 0.747 |
+| Stage 3 | XGBoost | Complete assessment records | 0.998 | 0.977 | 0.765 | 0.976 | 0.925 |
+| Stage 3 | Neural network | Complete assessment records | 0.996 | 0.955 | 0.647 | 0.976 | 0.886 |
 
-The setup notes below describe the intended workflow. Clean-kernel execution has not yet been verified; the later notebooks currently rely on state from earlier stages and may require fixes before they run successfully.
+Stage 2 provides a credible uplift over intake-only data. Stage 3 requires a different interpretation: 2,231 records have no assessment data and every one is a dropout. Using that missingness would leak an outcome-adjacent signal, so Stage 3 is evaluated only for the 22,828 records with complete assessment data (91.1% coverage). Its high scores show the strength of late assessment outcomes, not validated early-warning performance.
 
-## Running locally
+See the [project summary](docs/project_summary.md) for the full interpretation and limitations.
 
-Run the notebooks from the cloned repository so repo-relative paths resolve as expected.
+## Repository structure
 
-1. Create and activate your environment.
-2. Install dependencies with `pip install -r requirements.txt`.
-3. Open the notebooks from `notebooks/` in VS Code / WSL and run them normally.
-
-The notebooks and shared path helpers resolve the project root from the repo, so saved artefacts continue to land in the standard project folders:
-
-- `data/`
-- `models/`
-- `tuning/`
-- `reports/`
-- `demo_artifacts/`
-
-## Running in Google Colab
-
-Colab runtimes are temporary, so clone the repo and reinstall dependencies at the start of each new session.
-
-1. Clone the repo into `/content`:
-
-```bash
-!git clone <repo-url> /content/student-dropout-prediction
+```text
+data/processed/                 Public, anonymised stage datasets
+docs/project_summary.md         Method, results and limitations
+models/                         Reproducible fitted model artefacts
+notebooks/                      Executed end-to-end portfolio notebook
+reports/                        Metrics, predictions and figures
+src/experiment.py               Data checks, grouped splitting and modelling
+tests/                          Reproducibility and leakage checks
+scripts/                        Notebook build and execution helpers
+run_analysis.py                 Command-line entry point
 ```
 
-2. Move into the repo and install dependencies:
+## Run locally
+
+Tested with Python 3.12.
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+python -m pip install -r requirements.txt
+python run_analysis.py
+python scripts/execute_notebook.py
+python -m pytest
+```
+
+The run writes refreshed metrics, predictions, figures and six fitted model artefacts. The committed report files were generated by this workflow.
+
+## Run in Google Colab
+
+```python
+!git clone https://github.com/ATDiDonato/student-dropout-prediction.git /content/student-dropout-prediction
 %cd /content/student-dropout-prediction
 !pip install -r requirements.txt
 ```
 
-3. Open a notebook from the cloned repo, ideally under `notebooks/`, and run the Colab setup cell near the top.
+Then open `notebooks/student_dropout_prediction.ipynb` or use the badge above.
 
-The setup cell will:
+## Models and interpretation
 
-- detect Colab
-- switch into the cloned repo notebook directory when needed
-- add the repo root to `sys.path`
-- keep the same repo-relative save/load behaviour used locally by default
-- optionally switch saved artefacts to Google Drive when `USE_GOOGLE_DRIVE_ARTIFACTS = True`
+- **XGBoost:** class imbalance is addressed using the training-set class ratio.
+- **Neural network:** a scikit-learn multilayer perceptron uses balanced training weights and early stopping.
+- **Preprocessing:** missing values are learned from the training split; categorical values are one-hot encoded with infrequent categories grouped; numeric values are median-imputed and standardised.
+- **Model selection:** fixed, documented configurations are compared using the same grouped split. The project does not claim exhaustive hyperparameter optimisation.
 
-The default Colab assumption is `/content/student-dropout-prediction`. If you clone into a different folder name, set:
+## Important limitations
 
-```python
-import os
-os.environ["COLAB_PROJECT_REPO"] = "<your-cloned-folder-name>"
-```
+- The dataset has no event dates, so the exact timing of attendance and assessment features relative to dropout cannot be verified.
+- Stage 3 covers only learners with assessment records and must not be treated as an intake-time model.
+- Repeat enrolments are isolated by learner, but 36 repeated learners have different course outcomes; the prediction target is therefore enrolment-level.
+- Threshold selection prioritises recall and may create additional false-positive interventions.
+- Group-level fairness, probability calibration and prospective validation remain future work.
+- This is an exploratory academic project, not a deployed student-intervention system.
 
-before running the notebook setup cell.
-
-## Optional Google Drive Artefacts In Colab
-
-If you want saved models, tuning outputs, reports, or demo artefacts to persist across Colab sessions, enable Drive-backed artefacts in the notebook setup cell:
-
-```python
-USE_GOOGLE_DRIVE_ARTIFACTS = True
-GOOGLE_DRIVE_ARTIFACT_ROOT = "/content/drive/MyDrive/student_dropout_artifacts"
-```
-
-When Drive-backed artefacts are enabled in Colab:
-
-- the setup cell mounts Google Drive only for that session
-- portfolio artefacts are written under `<drive_root>/portfolio/`
-- demo artefacts are written under `<drive_root>/demo/`
-- project code and public datasets still come from the cloned repo under `/content/student-dropout-prediction`
-
-When Drive-backed artefacts are disabled:
-
-- local VS Code / WSL runs continue to use the repo folders directly
-- Colab runs save into the temporary cloned repo inside `/content`
-
-Expected Drive layout:
-
-```text
-<drive_root>/
-  portfolio/
-    models/
-    tuning/
-    reports/
-  demo/
-    datasets/
-    models/
-    tuning/
-    figures/
-```
