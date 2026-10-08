@@ -20,3 +20,5 @@ Thumbs.db
 *.tmp
 
 # Generated model artefacts, figures and reports are intentionally versioned.
+
+*:Zone.Identifier
