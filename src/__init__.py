@@ -1,2 +1,2 @@
-"""Reproducible utilities for the student dropout prediction project."""
+"""Shared utilities for the student dropout prediction notebooks."""
 

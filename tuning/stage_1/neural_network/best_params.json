@@ -1,0 +1,12 @@
+{
+  "project_name": "nn_tabular_auc_refined",
+  "best_params": {
+    "units": 48,
+    "layers": 1,
+    "activation": "relu",
+    "optimizer": "adam",
+    "lr": 0.001,
+    "dropout": 0.2,
+    "l2_strength": 1e-06
+  }
+}

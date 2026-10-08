@@ -1,0 +1,12 @@
+{
+  "best_params": {
+    "learning_rate": 0.119,
+    "max_depth": 8,
+    "min_child_weight": 1.15,
+    "gamma": 0.27,
+    "subsample": 0.754,
+    "colsample_bytree": 0.601,
+    "reg_alpha": 0.0052,
+    "reg_lambda": 4.74
+  }
+}
