@@ -595,12 +595,13 @@ def analyze_hp_importance(
     print("RMSE:", rmse)
 
     if do_shap:
+        X_shap = X_hp.astype(float)
         explainer = shap.TreeExplainer(rf)
-        shap_values = explainer.shap_values(X_hp)
+        shap_values = explainer.shap_values(X_shap)
         shap.summary_plot(
             shap_values,
-            X_hp,
-            feature_names=X_hp.columns,
+            X_shap,
+            feature_names=X_shap.columns,
         )
 
     return rf, importances, r2, rmse
