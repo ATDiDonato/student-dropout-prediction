@@ -1,0 +1,15 @@
+{
+  "run_id": "20261009T182535Z-117404c1851c4721921e486be183522e",
+  "sha256": {
+    "baseline.keras": "a4be0e59c7c2bb645d0bda2424f9cab4750853a7811482585da535b098bdda13",
+    "final_config_3.keras": "52fe9b7ef65b8bf8b62196b605ed2b635c3bfba480e2646a884e270b77352189",
+    "scaler.joblib": "dddb177ca83b46e178661560eea20503ffb99c26ade96c14b7d524d626c437f3",
+    "features.json": "5f6b374d7f91a6c18b4a02d6ae0e52da4674083eb5f8fb44bb65cd01bc71c99c",
+    "splits.json": "178e4ad45170b0f703f13dd6cd5908345af2bf22075d505e26e9d9df3b1d7531",
+    "baseline.history.json": "f3e0b85671c3ea3fd324b4576a8d3a1fe8fc35ad387d843505f6a666a4fd9c68",
+    "final.history.json": "9229cfb27de39439200b97a441bfc4d215b599d3860ddb8bc6d3c73636c9bf4a",
+    "baseline.metadata.json": "d2ff938735278f89acd029cd429046cfb488d5d7627e0a0f65b9214de9c90021",
+    "final.metadata.json": "5cf77f50a52dcf796b7d698ce01164910e07e83e313259a275083c513f0fc5f8"
+  },
+  "artifact_kind": "rebuilt"
+}
