@@ -12,8 +12,9 @@ The working environment is **Python 3.12.15** on Linux under WSL. Use Python 3.1
 packages to their actual installed versions, including IPython and ipykernel.
 The core ML pins also match the Stage 2/3 artifact metadata: TensorFlow 2.21.0,
 Keras 3.15.1, XGBoost 3.4.1, NumPy 2.5.3, pandas 3.0.6, scikit-learn 1.9.1 and
-joblib 1.6.0. These are recorded working versions, not a newly tested clean
-installation or a complete transitive dependency lock.
+joblib 1.6.0. These recorded versions were also installed successfully in an
+isolated Python 3.12.15 environment; they are not a complete transitive dependency
+lock. `nbformat==5.11.1` is required for IPython to run the stage notebook files.
 
 ## Environment and kernel
 
@@ -39,32 +40,19 @@ CPU use, set `CUDA_VISIBLE_DEVICES=-1` before starting the Python process/kernel
 
 Stages 2 and 3 depend on earlier stages' raw and encoded datasets, accumulated
 results and trial tables. Separate notebook kernels do not share these variables.
-Use the verified VS Code workflow:
+Open [notebooks/00_run_all_stages.ipynb](notebooks/00_run_all_stages.ipynb) in
+VS Code, select the configured `student-dropout` kernel, start a fresh kernel
+and choose **Run All**. Start with the working directory anywhere inside the
+cloned repository. The runner locates the repository, changes into `notebooks/`
+and launches Stages 1, 2 and 3 in separate cells using relative `%run -i`
+commands. It contains no preprocessing, modelling or training controls.
 
-1. Open `notebooks/01_stage_1_data_and_modelling.ipynb`, select the configured
-   `student-dropout` kernel, start a fresh kernel and choose **Run All**.
-2. Keep that same live Stage 1 notebook session. Confirm its working directory
-   is the repository's `notebooks/` directory using `%pwd`. If it is the repository
-   root, run `%cd notebooks` once in a temporary cell.
-3. Add a temporary launcher cell beneath Stage 1 and run:
-
-   ```ipython
-   %run -i 02_stage_2_data_and_modelling.ipynb
-   ```
-
-4. After Stage 2 completes, add another temporary cell in that same notebook and
-   run:
-
-   ```ipython
-   %run -i 03_stage_3_data_and_modelling.ipynb
-   ```
-
-The `-i` keeps earlier stage variables available to later stages. Stage 2 and
-Stage 3 outputs appear beneath their launcher cells in Stage 1; `%run` does not
-populate saved outputs in the Stage 2/3 source notebooks. Do not commit the
-temporary launcher cells or their outputs. Remove them before saving Stage 1
-for a commit, preserving its intended analysis and saved outputs. Restart the
-kernel before repeating the complete sequence.
+All stages share the runner's live namespace. Outputs appear beneath each
+stage's launcher cell in the runner; `%run` does not populate saved outputs in
+the Stage 1/2/3 source notebooks. No temporary launcher cells need to be added
+to those source notebooks. Restart the kernel before a complete rerun. Keep
+the saved-model defaults below unchanged. The complete runner passed end to end
+on CPU in a separate local clone and isolated Python 3.12.15 environment.
 
 Terminal IPython is an alternative for execution, but equivalent inline plot
 display is not guaranteed. From the repository root with the environment active:
@@ -145,8 +133,20 @@ reuse with fitting blocked were verified in the working environment. Their
 manifests record successful pairs; metadata distinguishes newly measured metrics
 from historical parameter/trial documentation. The shared XGBoost compatibility
 path also has mocked-loader regression tests for different checkout locations
-and rejection of substantive evidence/data/schema changes. These checks do not
-establish a fresh-clone end-to-end notebook run.
+and rejection of substantive evidence/data/schema changes.
+
+On 2026-10-15, the complete runner passed in a separate clone at a different
+path, using an isolated Python 3.12.15 environment on Linux/WSL. Installation
+from `requirements.txt` and `pip check` passed. One fresh CPU-only Jupyter kernel
+executed all three stages, with inline plotting enabled (96 plots), predictive
+model fitting and tuner searches blocked, and preprocessing scaler fits
+permitted. There were no execution errors or attempted predictive fits/searches.
+All 87 model/evidence/dataset files retained identical before/after hashes; the
+original environment, notebooks and artifacts were preserved. The executed
+runner was saved outside the source checkout, not as invented outputs in the
+stage notebooks. Warnings concerned missing notebook cell IDs, legacy XGBoost
+serialization, RNG behavior and deprecated pandas arguments. This verifies the
+saved workflow in that environment, not other platforms or optional branches.
 
 Optuna/Keras Tuner searches, stability retraining and other optional fitting
 branches are outside this verification scope. Keep their controls disabled.
@@ -162,6 +162,6 @@ away from committed artifacts, and Stage 3 evidence paths currently assume the
 repository artifact layout. Enabling Drive is not a supported saved-model setup,
 even if files are copied there.
 
-Remaining setup assumptions: availability of these recorded package versions
-for the target platform/index, compatible transitive dependencies, and local
-Jupyter/kernel configuration have not been tested in a clean environment.
+Remaining setup assumptions: other platforms/package indexes and local VS Code
+kernel configuration have not been tested by the isolated CPU run. Transitive
+dependencies are not locked, so future resolution may differ.
