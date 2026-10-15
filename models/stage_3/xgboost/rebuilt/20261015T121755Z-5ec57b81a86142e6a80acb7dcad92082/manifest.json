@@ -1,0 +1,13 @@
+{
+  "run_id": "20261015T121755Z-5ec57b81a86142e6a80acb7dcad92082",
+  "artifact_kind": "rebuilt",
+  "stage": "stage_3",
+  "sha256": {
+    "baseline.joblib": "bd50972bc0e24def183d4f2aee1f78f8a3ee6646367e22680444ba0467ddf3d8",
+    "baseline.metadata.json": "3ee8de209b726ec1de2f05acd4448bfd567bb8c658ed05447bc89d2101e6e348",
+    "features.json": "de0f85949bd503f1b909685dcd58e9941450b5bcbf10609792450d00e7223490",
+    "final.joblib": "d727317906a2c2a5eb3b9a8d5b091cd68450e899c29d39f390c81c3de3e64fca",
+    "final.metadata.json": "6b6aa90bdbad40fde89491d9da908a823b939c9f97b7184872867781244ce4f1",
+    "splits.json": "178e4ad45170b0f703f13dd6cd5908345af2bf22075d505e26e9d9df3b1d7531"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "run_id": "20261015T130719Z-6369239758a848a7a5bc4236436551e2",
+  "sha256": {
+    "baseline.keras": "be6fbba4fd8d88d9e58e8ef1381e48de48cfdb38c4a1718e8641a08e6f74512f",
+    "final.keras": "9b8e55875377800ffc2293509fa0f1a328b81aee3e3a20304fdc07f89b01172a",
+    "scaler.joblib": "444a621aaba3520823d0bc95ddd0f5b391aca5c6bf057833a5df84e02c80613a",
+    "features.json": "3443500640e14c8b81bb7f86bf82c21e64255ec6fd6fec141d828665e354d17c",
+    "splits.json": "178e4ad45170b0f703f13dd6cd5908345af2bf22075d505e26e9d9df3b1d7531",
+    "baseline.history.json": "91087352e6669180157d9a0a6bacbc2f0b63f6628e3b21f11fbe5271dd2b3d86",
+    "final.history.json": "d82a3c01c7c682e2e65318fd149c496761d6bf4b095ecc708c04dded38c25962",
+    "baseline.metadata.json": "0c96ba1560dc2fac4429e22d0a579d0abe0c3764cf8c664fe92d3617ac199e9a",
+    "final.metadata.json": "ec17582628a2019ea7390cd775a1cfc70872cb1e5d276dc1e829a3be1474b1a0"
+  },
+  "stage": "stage_3",
+  "artifact_kind": "rebuilt"
+}
