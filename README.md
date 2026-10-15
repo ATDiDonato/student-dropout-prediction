@@ -44,13 +44,16 @@ Open [notebooks/00_run_all_stages.ipynb](notebooks/00_run_all_stages.ipynb) in
 VS Code, select the configured `student-dropout` kernel, start a fresh kernel
 and choose **Run All**. Start with the working directory anywhere inside the
 cloned repository. The runner locates the repository, changes into `notebooks/`
-and launches Stages 1, 2 and 3 in separate cells using relative `%run -i`
-commands. It contains no preprocessing, modelling or training controls.
+and launches Stages 1, 2 and 3 in separate cells. A small helper reads each
+notebook with nbformat, displays its Markdown and executes its code through the
+active IPython shell, in source order. It contains no preprocessing, modelling
+or training controls, and stops on a cell error with the stage and source cell.
 
 All stages share the runner's live namespace. Outputs appear beneath each
-stage's launcher cell in the runner; `%run` does not populate saved outputs in
-the Stage 1/2/3 source notebooks. No temporary launcher cells need to be added
-to those source notebooks. Restart the kernel before a complete rerun. Keep
+stage's launcher cell in the runner, including Markdown conclusions and plots;
+the Stage 1/2/3 source notebooks' saved outputs are not updated. No additional
+launcher cells need to be added to those source notebooks. Restart the kernel
+before a complete rerun. Keep
 the saved-model defaults below unchanged. The complete runner passed end to end
 on CPU in a separate local clone and isolated Python 3.12.15 environment.
 
