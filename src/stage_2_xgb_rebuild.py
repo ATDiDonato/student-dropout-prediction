@@ -224,6 +224,11 @@ def _reuse_context(context):
         role: {k: v for k, v in settings.items() if k != 'n_jobs'}
         for role, settings in context['training_settings'].items()
     }
+    # Diagnostic prose can contain checkout-specific paths; evidence stays strict.
+    result['evidence'] = {
+        role: {k: v for k, v in evidence.items() if k != 'diagnostics'}
+        for role, evidence in context['evidence'].items()
+    }
     return result
 
 

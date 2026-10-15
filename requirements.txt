@@ -1,16 +1,21 @@
-joblib
-keras
-keras-tuner
-matplotlib
-numpy
-optuna
-pandas
-plotly
-requests
-scikit-learn
-scipy
-seaborn
-shap
-tables
-tensorflow
-xgboost
+# Direct notebook/runtime dependencies from the working Python 3.12.15 environment.
+# Core ML versions match the Stage 2/3 rebuilt artifact metadata.
+# Optional NVIDIA libraries: requirements-cuda.txt.
+ipykernel==7.4.0
+ipython==9.17.1
+joblib==1.6.0
+keras==3.15.1
+keras-tuner==1.4.8
+matplotlib==3.11.2
+numpy==2.5.3
+optuna==5.0.0
+pandas==3.0.6
+plotly==7.1.0
+requests==2.34.2
+scikit-learn==1.9.1
+scipy==1.18.1
+seaborn==0.13.2
+shap==0.53.0
+tables==3.11.1
+tensorflow==2.21.0
+xgboost==3.4.1
