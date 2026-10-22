@@ -1,5 +1,57 @@
 # Student Dropout Prediction
 
+Predicting student non-completion using XGBoost and neural networks, comparing enrolment, attendance and assessment data across three modelling stages.
+
+## Business context
+
+Identifying students at risk of non-completion could help education providers target support more effectively. However, the information available at enrolment differs substantially from what becomes available during a course.
+
+This project explores two questions:
+
+- How does predictive performance change as attendance and assessment information becomes available?
+- How much improvement comes from additional features compared with hyperparameter tuning?
+
+Missing a student who needs support and incorrectly flagging a student both carry costs. The analysis therefore considers recall alongside precision, specificity, accuracy and ROC AUC, rather than relying on accuracy alone.
+
+## Why three stages?
+
+| Stage | Information included | Purpose |
+|---|---|---|
+| **1 — Enrolment** | Enrolment, demographic and declared progression information | Establish a baseline using information intended to describe students at intake. |
+| **2 — Attendance** | Stage 1 features plus authorised and unauthorised absence counts | Evaluate the additional predictive value of engagement indicators. |
+| **3 — Assessment** | Stage 2 features plus academic performance information | Evaluate the additional predictive value of assessment outcomes. |
+
+Each stage compares XGBoost and neural network configurations using consistent stratified train, validation and test splits. Neural network inputs are standardised using a scaler fitted on the training set only.
+
+The public version uses anonymised and obfuscated data.
+
+## Key findings
+
+Additional features produced much larger performance improvements than changes to model configuration. The largest improvement occurred in Stage 3 after assessment information was introduced.
+
+### Final-model test results
+
+| Stage | Model | Accuracy | Precision | Recall | ROC AUC |
+|---|---|---:|---:|---:|---:|
+| 1 | XGBoost | 0.8990 | 0.6979 | 0.5752 | 0.8988 |
+| 1 | Neural network | 0.8986 | 0.7063 | 0.5539 | 0.8978 |
+| 2 | XGBoost | 0.9142 | 0.7627 | 0.6205 | 0.9326 |
+| 2 | Neural network | 0.9076 | 0.7345 | 0.6005 | 0.9182 |
+| 3 | XGBoost | 0.9886 | 0.9819 | 0.9414 | 0.9989 |
+| 3 | Neural network | 0.9870 | 0.9738 | 0.9387 | 0.9986 |
+
+Classification metrics use a probability threshold of 0.5. ROC AUC evaluates ranking across thresholds.
+
+**Prediction timing matters:** these results demonstrate performance on the supplied datasets. They do not establish how early the models could reliably identify students at risk. Operational use would require a defined prediction date, confirmation that every feature was available by that date, and validation on later cohorts.
+
+## Explore the project
+
+- **[Project report](reports/Alex_Di_Donato_Student_Dropout_Prediction_Report.pdf)** — business context, methodology, results and recommendations.
+- **[Run all three stages](notebooks/00_run_all_stages.ipynb)** — executes the analysis in order, displaying explanations, results and plots.
+- **[Stage 1](notebooks/01_stage_1_data_and_modelling.ipynb)** · **[Stage 2](notebooks/02_stage_2_data_and_modelling.ipynb)** · **[Stage 3](notebooks/03_stage_3_data_and_modelling.ipynb)** — detailed analysis and modelling.
+
+The default workflow uses the included datasets and saved models; retraining is not required. Setup instructions and verification limits follow below.
+
 ## Supported saved-model workflow
 
 Use the tracked datasets, saved Stage 1 models/evidence, and the Stage 2/3 rebuilt
@@ -165,6 +217,3 @@ away from committed artifacts, and Stage 3 evidence paths currently assume the
 repository artifact layout. Enabling Drive is not a supported saved-model setup,
 even if files are copied there.
 
-Remaining setup assumptions: other platforms/package indexes and local VS Code
-kernel configuration have not been tested by the isolated CPU run. Transitive
-dependencies are not locked, so future resolution may differ.
