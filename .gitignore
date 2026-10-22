@@ -151,9 +151,6 @@ demo_artifacts/**/checkpoint*
 # ============================================================
 
 *.png
-*.pdf
-
-!reports/
 !reports/figures/
 !reports/figures/*.png
 
